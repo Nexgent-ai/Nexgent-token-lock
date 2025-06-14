@@ -7,8 +7,10 @@ security_txt! {
     name: "Nexgent Token Lock Program",
     project_url: "https://nexgent.ai/",
     contacts: "email:contact@nexgent.ai",
+    policy: "https://nexgent.ai/security-policy",
     preferred_languages: "en",
     source_code: "https://github.com/Nexgent-ai/Nexgent-token-lock/tree/devnet",
+    source_revision: "5aa5e1899459c13eb4e2fbca4c7769cef243973c",
     auditors: "Verifier pubkey: ALJi52CY7N8WbqS8FSxYGggtgaHF7huaM9wBB7AT1fMg"
 }
 
