@@ -6,7 +6,7 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-nexgent_token_lock_program = "HWZXK9n72Hj5kyadBph9PFbWcWq3RsEXFTEd2uFEDDK8"
+nexgent_token_lock_program = "ALJi52CY7N8WbqS8FSxYGggtgaHF7huaM9wBB7AT1fMg"
 
 [registry]
 url = "https://api.apr.dev"
