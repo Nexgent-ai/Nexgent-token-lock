@@ -1,6 +1,16 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token::{self, Mint, Token, TokenAccount};
 use anchor_spl::associated_token::AssociatedToken;
+use solana_security_txt::security_txt;
+
+security_txt! {
+    name: "Nexgent Token Lock Program",
+    project_url: "https://nexgent.ai/",
+    contacts: "email:contact@nexgent.ai",
+    preferred_languages: "en",
+    source_code: "https://github.com/Nexgent-ai/Nexgent-token-lock/tree/devnet",
+    auditors: "Verifier pubkey: ALJi52CY7N8WbqS8FSxYGggtgaHF7huaM9wBB7AT1fMg"
+}
 
 declare_id!("ALJi52CY7N8WbqS8FSxYGggtgaHF7huaM9wBB7AT1fMg");
 
