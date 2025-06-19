@@ -1,5 +1,5 @@
 use anchor_lang::prelude::*;
-use anchor_spl::token::{self, Mint, Token, TokenAccount};
+use anchor_spl::token::{self, Token};
 use anchor_spl::associated_token::AssociatedToken;
 use solana_security_txt::security_txt;
 
@@ -11,10 +11,10 @@ security_txt! {
     preferred_languages: "en",
     source_code: "https://github.com/Nexgent-ai/Nexgent-token-lock/tree/devnet",
     source_revision: "5aa5e1899459c13eb4e2fbca4c7769cef243973c",
-    auditors: "Verifier pubkey: ALJi52CY7N8WbqS8FSxYGggtgaHF7huaM9wBB7AT1fMg"
+    auditors: "Verifier pubkey: 47YGQvDJJzMAAq7Z6x7LegYhS5Dremk5sGRYGjkAM7c2"
 }
 
-declare_id!("ALJi52CY7N8WbqS8FSxYGggtgaHF7huaM9wBB7AT1fMg");
+declare_id!("47YGQvDJJzMAAq7Z6x7LegYhS5Dremk5sGRYGjkAM7c2");
 
 // Account size: 8 (discriminator) + 32 (pubkey) + 16 (user_id) + 8 (amount) + 8 (lock_end) = 72 bytes
 pub const LOCK_ACCOUNT_SIZE: usize = 8 + 32 + 16 + 8 + 8;
