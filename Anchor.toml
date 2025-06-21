@@ -8,11 +8,14 @@ skip-lint = false
 [programs.devnet]
 nexgent_token_lock_program = "47YGQvDJJzMAAq7Z6x7LegYhS5Dremk5sGRYGjkAM7c2"
 
+[programs.mainnet]
+nexgent_token_lock_program = "47YGQvDJJzMAAq7Z6x7LegYhS5Dremk5sGRYGjkAM7c2"
+
 [registry]
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "devnet"
+cluster = "mainnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]
