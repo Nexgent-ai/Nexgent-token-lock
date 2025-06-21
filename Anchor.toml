@@ -5,14 +5,17 @@ package_manager = "yarn"
 resolution = true
 skip-lint = false
 
-[programs.localnet]
-nexgent_token_lock_program = "HWZXK9n72Hj5kyadBph9PFbWcWq3RsEXFTEd2uFEDDK8"
+[programs.devnet]
+nexgent_token_lock_program = "47YGQvDJJzMAAq7Z6x7LegYhS5Dremk5sGRYGjkAM7c2"
+
+[programs.mainnet]
+nexgent_token_lock_program = "47YGQvDJJzMAAq7Z6x7LegYhS5Dremk5sGRYGjkAM7c2"
 
 [registry]
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "localnet"
+cluster = "mainnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]
