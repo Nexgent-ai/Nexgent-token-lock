@@ -43,7 +43,7 @@ pub mod nexgent_lock {
         lock.user = ctx.accounts.user.key();
         lock.user_id = user_id;
         lock.amount = amount;
-        lock.lock_end = clock.unix_timestamp + 60; // 1 minute in seconds
+        lock.lock_end = clock.unix_timestamp + (30 * 24 * 60 * 60); // 30 days in seconds
 
         emit!(LockInitialized {
             user: lock.user,
