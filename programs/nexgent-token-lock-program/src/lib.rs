@@ -21,7 +21,7 @@ pub mod nexgent_lock {
     use super::*;
 
     pub fn initialize_lock(ctx: Context<InitializeLock>, user_id: [u8; 16]) -> Result<()> {
-        let amount = 25_000 * 10u64.pow(9); // 25,000 tokens with 9 decimals
+        let amount = 250_000 * 10u64.pow(9); // 250,000 tokens with 9 decimals
 
         // Transfer tokens to the vault
         token::transfer(
