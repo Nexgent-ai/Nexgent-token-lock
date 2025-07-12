@@ -20,7 +20,7 @@ To verify this program on Solana explorers (like Solscan):
 2. Deploy using the `.so` file produced by the verified build.
 3. Use the verification command:
    ```sh
-   solana-verify verify-from-repo -u https://api.devnet.solana.com --program-id ALJi52CY7N8WbqS8FSxYGggtgaHF7huaM9wBB7AT1fMg https://github.com/Nexgent-ai/Nexgent-token-lock.git
+   solana-verify verify-from-repo -u https://api.mainnet-beta.solana.com --program-id 47YGQvDJJzMAAq7Z6x7LegYhS5Dremk5sGRYGjkAM7c2 https://github.com/Nexgent-ai/Nexgent-token-lock.git
    ```
 4. Follow explorer instructions to complete verification.
 
