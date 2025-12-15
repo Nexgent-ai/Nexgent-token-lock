@@ -1,7 +1,11 @@
 use anchor_lang::prelude::*;
-use anchor_spl::token::{self, Token};
+use anchor_spl::token::{self, Mint, Token, TokenAccount};
 use anchor_spl::associated_token::AssociatedToken;
 use solana_security_txt::security_txt;
+
+// Hardcoded addresses for the NEXGENT token - prevents fake mint/vault attacks
+pub const NEXGENT_MINT: Pubkey = pubkey!("9JErKCoJX7nmMsYvicoZfEdTdW1qiF9oeocHWyKLmoon");
+pub const NEXGENT_VAULT: Pubkey = pubkey!("AbGYx1a6j1KJAPwkePrDXPnMTBHQ2Yhx7n9qJVH4cwme");
 
 security_txt! {
     name: "Nexgent Token Lock Program",
@@ -106,24 +110,35 @@ pub struct InitializeLock<'info> {
     )]
     pub lock_account: Account<'info, LockAccount>,
 
-    /// CHECK: This is the token mint
-    #[account(mut)]
-    pub token_mint: AccountInfo<'info>,
+    /// The NEXGENT token mint - must match hardcoded address
+    #[account(
+        constraint = token_mint.key() == NEXGENT_MINT @ LockError::InvalidMint
+    )]
+    pub token_mint: Account<'info, Mint>,
 
-    /// CHECK: This is the user's token account
-    #[account(mut)]
-    pub user_token_account: AccountInfo<'info>,
+    /// User's token account - must be owned by user and hold NEXGENT tokens
+    #[account(
+        mut,
+        constraint = user_token_account.owner == user.key() @ LockError::InvalidTokenAccountOwner,
+        constraint = user_token_account.mint == NEXGENT_MINT @ LockError::MintMismatch
+    )]
+    pub user_token_account: Account<'info, TokenAccount>,
 
-    /// CHECK: PDA owned by the program
+    /// CHECK: PDA owned by the program - vault authority
     #[account(
         seeds = [b"vault"],
         bump
     )]
     pub vault_authority: AccountInfo<'info>,
 
-    /// CHECK: This is the vault's token account
-    #[account(mut)]
-    pub vault_token_account: AccountInfo<'info>,
+    /// Vault token account - must match hardcoded address and be owned by vault_authority
+    #[account(
+        mut,
+        constraint = vault_token_account.key() == NEXGENT_VAULT @ LockError::InvalidVault,
+        constraint = vault_token_account.owner == vault_authority.key() @ LockError::InvalidVaultOwner,
+        constraint = vault_token_account.mint == NEXGENT_MINT @ LockError::MintMismatch
+    )]
+    pub vault_token_account: Account<'info, TokenAccount>,
 
     pub token_program: Program<'info, Token>,
     pub system_program: Program<'info, System>,
@@ -140,28 +155,40 @@ pub struct Unlock<'info> {
         mut,
         seeds = [b"lock", user.key().as_ref()],
         bump,
-        close = user
+        close = user,
+        has_one = user @ LockError::UnauthorizedUser
     )]
     pub lock_account: Account<'info, LockAccount>,
 
-    /// CHECK: This is the token mint
-    #[account(mut)]
-    pub token_mint: AccountInfo<'info>,
+    /// The NEXGENT token mint - must match hardcoded address
+    #[account(
+        constraint = token_mint.key() == NEXGENT_MINT @ LockError::InvalidMint
+    )]
+    pub token_mint: Account<'info, Mint>,
 
-    /// CHECK: This is the user's token account
-    #[account(mut)]
-    pub user_token_account: AccountInfo<'info>,
+    /// User's token account - must be owned by user and hold NEXGENT tokens
+    #[account(
+        mut,
+        constraint = user_token_account.owner == user.key() @ LockError::InvalidTokenAccountOwner,
+        constraint = user_token_account.mint == NEXGENT_MINT @ LockError::MintMismatch
+    )]
+    pub user_token_account: Account<'info, TokenAccount>,
 
-    /// CHECK: PDA owned by the program
+    /// CHECK: PDA owned by the program - vault authority
     #[account(
         seeds = [b"vault"],
         bump
     )]
     pub vault_authority: AccountInfo<'info>,
 
-    /// CHECK: This is the vault's token account
-    #[account(mut)]
-    pub vault_token_account: AccountInfo<'info>,
+    /// Vault token account - must match hardcoded address and be owned by vault_authority
+    #[account(
+        mut,
+        constraint = vault_token_account.key() == NEXGENT_VAULT @ LockError::InvalidVault,
+        constraint = vault_token_account.owner == vault_authority.key() @ LockError::InvalidVaultOwner,
+        constraint = vault_token_account.mint == NEXGENT_MINT @ LockError::MintMismatch
+    )]
+    pub vault_token_account: Account<'info, TokenAccount>,
 
     pub token_program: Program<'info, Token>,
 }
@@ -210,4 +237,16 @@ pub struct MetaOnly<'info> {
 pub enum LockError {
     #[msg("Lock period has not ended.")]
     LockPeriodNotOver,
+    #[msg("Invalid token mint. Only NEXGENT token is supported.")]
+    InvalidMint,
+    #[msg("Invalid vault token account.")]
+    InvalidVault,
+    #[msg("Token mint does not match expected NEXGENT mint.")]
+    MintMismatch,
+    #[msg("Token account owner does not match the user.")]
+    InvalidTokenAccountOwner,
+    #[msg("Vault token account must be owned by vault authority PDA.")]
+    InvalidVaultOwner,
+    #[msg("Unauthorized user.")]
+    UnauthorizedUser,
 }
